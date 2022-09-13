@@ -1,4 +1,5 @@
 module output
+
   implicit none
 
   integer, private :: icount = 0
@@ -6,24 +7,17 @@ module output
 
 contains
 
-  subroutine data_out(results, time, timestep)
+  subroutine data_out(results, time)
     real, intent(in) :: results(:,:)
-    real, intent(in) :: time
-    integer, intent(in) :: timestep
-
+    integer, intent(in) :: time
     integer :: n
 
-    character(len=100) :: filename
+    open(1, file="results", status='new')
 
-    write(filename, "(a,i5.5)") 'snap',icount
+    write(1,*)'time, x, y, vx, vy, ax, ay'
 
-    open(1, file=filename, status='replace')
-
-    write(1,*)'x, y, vx, vy, ax, ay'
-    write(1,*) time
-
-    do n=1,timestep
-      write(1,*) results(n,1), results(n,2), results(n,3), &
+    do n=1,time
+      write(1,*) n, results(n,1), results(n,2), results(n,3), &
                   results(n,4), results(n,5), results(n,6)
     enddo
 

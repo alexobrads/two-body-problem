@@ -11,4 +11,4 @@ run: $(OBJ)
 	$(FC) $(FFLAGS) -o $@ $(OBJ)
 
 clean:
-	rm *.o *.mod *.dat *snap*
+	rm *.o *.mod *results* run *.dat

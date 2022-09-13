@@ -1,0 +1,7 @@
+*.dat
+*.mod
+*.o
+results
+run
+/.vscode/
+/.idea/

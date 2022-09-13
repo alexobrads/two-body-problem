@@ -20,10 +20,10 @@ program orbit
     time = 0
     timestep = 1
     dt = 0.05
-    call setup(results, e)
-    call data_out(results, time, timestep)
-
     times(1) = time
+
+    call setup(results, e)
+
     momentum(timestep) = ang_mom(results, timestep)
     energy(timestep) = eng(results, timestep)
 
@@ -36,11 +36,6 @@ program orbit
       !call rk4(results, dt, timestep)
       call leapfrog(results, dt, timestep)
 
-      if (mod(timestep, 20)==0) then
-        call data_out(results, time, timestep)
-
-      endif
-
       times(timestep) = time
       momentum(timestep) = ang_mom(results, timestep)
       energy(timestep) = eng(results, timestep)
@@ -48,6 +43,6 @@ program orbit
     enddo
 
     call conservation_out(momentum, energy, times, timestep)
-
+    call data_out(results, timestep)
 
 end program orbit

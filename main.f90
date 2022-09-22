@@ -7,6 +7,8 @@ program orbit
 
     implicit none
 
+    real :: x(1000), y(1000), Vx(1000), Vy(1000), Ax(1000), Ay(1000)
+
     real :: results(1000, 6)
     real :: dt, time
     integer :: timestep

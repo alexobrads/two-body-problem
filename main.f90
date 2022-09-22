@@ -7,14 +7,14 @@ program orbit
 
     implicit none
 
-    real :: results(5000, 6)
+    real :: results(1000, 6)
     real :: dt, time
     integer :: timestep
     real, parameter :: e = 0.7
 
-    real :: momentum(5000)
-    real :: energy(5000)
-    real :: times(5000)
+    real :: momentum(1000)
+    real :: energy(1000)
+    real :: times(1000)
 
 
     time = 0
@@ -29,7 +29,7 @@ program orbit
 
 
 
-    do timestep=2,5000
+    do timestep=2,1000
 
       time = timestep*dt
 

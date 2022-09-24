@@ -7,18 +7,18 @@ module output
 
 contains
 
-  subroutine data_out(results, time)
-    real, intent(in) :: results(:,:)
-    integer, intent(in) :: time
+  subroutine data_out(x, y, Vx, Vy, Ax, Ay, t)
+    real*8, intent(in) :: x(:), y(:), Vx(:), Vy(:), Ax(:), Ay(:)
+    integer, intent(in) :: t
     integer :: n
 
     open(1, file="results", status='new')
 
     write(1,*)'time, x, y, vx, vy, ax, ay'
 
-    do n=1,time
-      write(1,*) n, results(n,1), results(n,2), results(n,3), &
-                  results(n,4), results(n,5), results(n,6)
+    do n=1,t
+      write(1,*) n, x(n), y(n), Vx(n), &
+                  Vy(n), Ax(n), Ay(n)
     enddo
 
     close(1)
@@ -29,8 +29,8 @@ contains
 
 
 
-  subroutine conservation_out(momentum, energy, times, t)
-    real, intent(in) :: momentum(:), energy(:), times(:)
+  subroutine conservation_out(momentum, energy, t)
+    real*8, intent(in) :: momentum(:), energy(:)
     integer, intent(in) :: t
 
     integer :: n
@@ -39,7 +39,7 @@ contains
     write(1, *) "w, e, t"
 
     do n = 1,t
-      write(1,*) momentum(n), energy(n), times(n)
+      write(1,*) momentum(n), energy(n), n
     enddo
     close(1)
 

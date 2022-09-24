@@ -1,50 +1,39 @@
 program orbit
 
-    use output
     use calcs
     use initialize
-    use movement
+    use step
+    use output
 
     implicit none
+    real*8, parameter :: e = 0.05, dt = 0.05
 
-    real :: x(1000), y(1000), Vx(1000), Vy(1000), Ax(1000), Ay(1000)
+    real*8 :: x(1000), y(1000), Vx(1000), Vy(1000), Ax(1000), Ay(1000)
 
-    real :: results(1000, 6)
-    real :: dt, time
-    integer :: timestep
-    real, parameter :: e = 0.7
+    real*8 :: m(1000)
+    real*8 :: eng(1000)
 
-    real :: momentum(1000)
-    real :: energy(1000)
-    real :: times(1000)
+    integer :: t
 
 
-    time = 0
-    timestep = 1
-    dt = 0.05
-    times(1) = time
+    t = 1
 
-    call setup(results, e)
+    call setup(x, y, Vx, Vy, Ax, Ay, e)
 
-    momentum(timestep) = ang_mom(results, timestep)
-    energy(timestep) = eng(results, timestep)
+    m(t) = momentum(x, y, Vx, Vy, t)
+    eng(t) = energy(x, y, Vx, Vy, t)
 
 
-
-    do timestep=2,1000
-
-      time = timestep*dt
+    do t=2,1000
 
       !call rk4(results, dt, timestep)
-      call leapfrog(results, dt, timestep)
-
-      times(timestep) = time
-      momentum(timestep) = ang_mom(results, timestep)
-      energy(timestep) = eng(results, timestep)
+      call leapfrog(x, y, Vx, Vy, Ax, Ay, dt, t)
+      m(t) = momentum(x, y, Vx, Vy, t)
+      eng(t) = energy(x, y, Vx, Vy, t)
 
     enddo
 
-    call conservation_out(momentum, energy, times, timestep)
-    call data_out(results, timestep)
+    call conservation_out(m, eng, t)
+    call data_out(x, y, Vx, Vy, Ax, Ay, t)
 
 end program orbit

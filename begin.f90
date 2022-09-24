@@ -4,39 +4,18 @@ module initialize
 
 contains
 
-    subroutine setup(results, e)
-        real, intent(inout) :: results(:,:)
-        real, intent(in) :: e
+    subroutine setup(x, y, Vx, Vy, Ax, Ay, e)
+        real*8, intent(inout) :: x(:), y(:), Vx(:), Vy(:), Ax(:), Ay(:)
+        real*8, intent(in) :: e
 
-        ! initialise the calculation at perihelon in order to 
-        ! simplify the calculation of inital conditions
-
-
-        ! x position at perihelon
-        results(1,1) = 1 - e
-        
-        ! y position at perihelon
-        results(1,2) = 0
-       
-        ! Vx no velocity in x direction at perihelon
-        results(1,3) = 0
-        
-        ! Vy can be derived from
-        ! e = c/a
-        ! ry = a - ae
-        ! rx = a + ae
-        ! conservation of angular momentum mVyry = mVxrx
-        ! equal to the gravitational potenial energy
-        ! some fancy algebra 
-        ! we dont care about GM or a for this
-        results(1,4) = sqrt((1+e)/(1-e))
-        
-        !Ax = -GMx/r^3
-        results(1,5) = dv_dt(results(1,1), results(1,1), results(1,2))
-        
-        !Ay = -Gmy/r^3
-        results(1,6) = dv_dt(results(1,2), results(1,1), results(1,2))
+        x(1) = 1 - e
+        y(1) = 0
+        Vx(1) = 0
+        Vy(1) = sqrt((1+e)/(1-e))
+        Ax(1) = dv_dt(x(1), x(1), y(1))
+        Ay(1) = dv_dt(y(1), x(1), y(1))
 
     end subroutine setup
 
 end module initialize
+

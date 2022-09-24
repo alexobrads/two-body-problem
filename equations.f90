@@ -4,45 +4,36 @@ module calcs
 contains
 
   function trig(x,y)
-    real :: trig, x, y
+    real*8 :: trig, x, y
 
     trig = sqrt(x**2 + y**2)
 
   end function trig
 
-  function dv_dt(pos, x, y)
-    real :: dv_dt, pos, x, y
+  function dv_dt(p, x, y)
+    real*8 :: dv_dt, p, x, y
 
-    dv_dt = -1*pos/trig(x,y)**3
+    dv_dt = -1*p/trig(x,y)**3 
 
   end function dv_dt
 
-
-  function ang_mom(results, t)
-    real :: ang_mom, results(:,:)
+  function momentum(x, y, Vx, Vy, t)
+    real*8 :: momentum, x(:), y(:), Vx(:), Vy(:)
     integer :: t
 
-    ang_mom = results(t, 1)*results(t,4) - results(t, 2)*results(t,3)
+    momentum = x(t)*Vy(t) - y(t)*Vx(t)
 
-  end function ang_mom
+  end function momentum
 
 
-  function eng(results, t)
-    real :: eng, results(:,:), r
+  function energy(x, y, Vx, Vy, t)
+    real*8 :: energy, x(:), y(:), Vx(:), Vy(:), r
     integer :: t
 
-    r = trig(results(t,1), results(t,2))
+    r = trig(x(t), y(t))
 
-    eng = 0.5*(results(t, 3)**2 + results(t, 4)**2) - 1/r
+    energy = 0.5*(Vx(t)**2 + Vy(t)**2) - 1/r
 
-  end function eng
-
-  function dx_dt(vxy)
-    real dx_dt, vxy
-
-    dx_dt = vxy
-
-  end function dx_dt
-
+  end function energy
 
 end module calcs

@@ -4,18 +4,30 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-fig, ax = plt.subplots()
+fig = plt.figure()
+graph, = plt.plot([], [])
 
-x = np.arange(0, 2*np.pi, 0.01)
-line, = ax.plot(x, np.sin(x))
+
+results = []
+with open("results") as file: 
+    lines = file.readlines()
+    results.append([line.split() for line in lines][1:])
+
+res = np.asarray(results[0])
+x = res[:,1].astype('float64')
+y = res[:,2].astype('float64')
 
 
 def animate(i):
-    line.set_ydata(np.sin(x + i / 50))  # update the data.
-    return line,
-
+    plt.clf()
+    plt.xlim(-3.5, 1.5)
+    plt.ylim(-1.5, 1.5)
+    plt.scatter(x[i], y[i], s=10, c="black")
+    plt.plot(x[:i], y[:i], lw=1, c="black")
+    plt.scatter(0, 0, s=20, c="black")
+    return graph
 
 ani = animation.FuncAnimation(
-    fig, animate, interval=20, blit=True, save_count=50)
+    fig, animate, frames=5000, interval=2)
 
 plt.show()

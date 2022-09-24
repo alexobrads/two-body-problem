@@ -16,7 +16,7 @@ contains
 
     write(1,*)'time, x, y, vx, vy, ax, ay'
 
-    do n=1,t
+    do n=1,t-1
       write(1,*) n, x(n), y(n), Vx(n), &
                   Vy(n), Ax(n), Ay(n)
     enddo
